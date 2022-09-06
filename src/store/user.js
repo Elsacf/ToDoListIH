@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import supabase from '../supabase/index';
 
-export default defineStore('userStore', {
+export default defineStore('user', {
   state: () => ({
     user: null,
   }),

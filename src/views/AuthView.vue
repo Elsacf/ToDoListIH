@@ -1,5 +1,5 @@
 <template>
-    <h1>Esta es la vista de Signup/In</h1>
+    <h1>Esta es la vista de SignUp/In</h1>
     <button @click="handleSignUp">SignUp</button>
 </template>
 
@@ -31,5 +31,4 @@ export default {
     },
   },
 };
-
 </script>

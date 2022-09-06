@@ -7,7 +7,6 @@
 <script>
 import { mapState, mapActions } from 'pinia';
 import taskStore from '@/store/task';
-// @ is an alias to /src
 
 export default {
   name: 'HomeView',
