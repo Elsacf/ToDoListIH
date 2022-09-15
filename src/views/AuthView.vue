@@ -1,52 +1,87 @@
 <template>
     <h1>Esta es la vista de SignUp/In</h1>
-    <div>
-      <button
-      @click="openSignUpForm"
-      class="signUpFormButton"
-      >
-        Create your account
-      </button>
-    </div>
-    <div>
-      <p>Already have an account?</p>
-      <button
-      @click="openSignInForm"
-      class="signInFormButton"
-      >
-        Sign in
-      </button>
-    </div>
-    <div v-show="showSignUpForm">
-    <SignUpForm />
-  </div>
-  <div v-show="showSignInForm">
-    <SignInForm />
-  </div>
+    <h4>Register and start to organize your tasks</h4>
+    <form>
+      <div class="formContainer">
+        <label for="name" class="label">
+          Enter your name:
+          <input
+            type="text"
+            name="name"
+            id="name"
+            v-model="name"
+            class="input"
+          />
+        </label>
+        <label for="email" class="label">
+          Enter your email:
+          <input
+            type="text"
+            name="email"
+            id="email"
+            v-model="email"
+            class="input"
+          />
+        </label>
+        <label for="password" class="label">
+          Enter your password:
+          <input
+            type="password"
+            name="password"
+            id="password"
+            v-model="password"
+            class="input"
+          />
+        </label>
+        <label for="passwordRepeat" class="label">
+          Confirm your password:
+          <input
+            type="password"
+            name="passwordRepeat"
+            id="passwordRepeat"
+            v-model="confirm"
+            class="input"
+          />
+        </label>
+      </div>
+    </form>
+    <button @click="handleSignUp">Sign Up</button>
 </template>
 
 <script>
-import SignUpForm from '@/components/SignUpForm.vue';
-import SignInForm from '@/components/SignInForm.vue';
+import userStore from '@/store/user';
+import { mapState, mapActions } from 'pinia';
 
 export default {
   name: 'AuthView',
-  components: {
-    SignUpForm,
-    SignInForm,
-  },
   data() {
     return {
-      showSignUpForm: false,
-      showSignInForm: false,
+      name: '',
+      email: '',
+      password: '',
+      confirm: '',
     };
   },
+  computed: {
+    ...mapState(userStore, ['user']),
+  },
   methods: {
-    openSignUpForm() {
-      this.showSignUpForm = true;
+    ...mapActions(userStore, ['signUp']),
+    handleSignUp() {
+      const enteredPassword = this.password;
+      const enteredConfirm = this.confirm;
+
+      if (enteredPassword === enteredConfirm) {
+        this.signUp(this.email, this.password);
+      }
     },
-    openSignInForm() {
-      this.showSignInForm = true;
+  },
+  watch: {
+    user() {
+      if (this.user) {
+        console.log(this.user);
+        this.$router.push({ path: '/ ' });
+      }
     },
   },
 };
