@@ -1,41 +1,52 @@
 <template>
-    <SignIn />
-    <SignUp />
     <h1>Esta es la vista de SignUp/In</h1>
-    <button @click="handleSignUp">SignUp</button>
+    <div>
+      <button
+      @click="openSignUpForm"
+      class="signUpFormButton"
+      >
+        Create your account
+      </button>
+    </div>
+    <div>
+      <p>Already have an account?</p>
+      <button
+      @click="openSignInForm"
+      class="signInFormButton"
+      >
+        Sign in
+      </button>
+    </div>
+    <div v-show="showSignUpForm">
+    <SignUpForm />
+  </div>
+  <div v-show="showSignInForm">
+    <SignInForm />
+  </div>
 </template>
 
 <script>
-import { mapState, mapActions } from 'pinia';
-import userStore from '@/store/user';
-import SignIn from '../components/SignIn.vue';
-import SignUp from '../components/SignUp.vue';
+import SignUpForm from '@/components/SignUpForm.vue';
+import SignInForm from '@/components/SignInForm.vue';
 
 export default {
   name: 'AuthView',
   components: {
-    SignIn,
-    SignUp,
+    SignUpForm,
+    SignInForm,
   },
-  computed: {
-    ...mapState(userStore, ['user']),
+  data() {
+    return {
+      showSignUpForm: false,
+      showSignInForm: false,
+    };
   },
   methods: {
-    ...mapActions(userStore, ['signUp']),
-    handleSignUp() {
-      const userData = {
-        email: 'nacho.martinez@ironhack.com',
-        password: 'pruebasignup',
-      };
-      this.signUp(userData.email, userData.password);
+    openSignUpForm() {
+      this.showSignUpForm = true;
     },
-  },
-  watch: {
-    user() {
-      if (this.user) {
-        console.log(this.user);
-        this.$router.push({ path: '/' });
-      }
+    openSignInForm() {
+      this.showSignInForm = true;
     },
   },
 };
