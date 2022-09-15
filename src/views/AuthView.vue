@@ -46,6 +46,7 @@
       </div>
     </form>
     <button @click="handleSignUp">Sign Up</button>
+    <p>Have registered already?</p><router-link to="/login">Click here</router-link>
 </template>
 
 <script>
