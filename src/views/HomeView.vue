@@ -4,7 +4,13 @@
     <div>
       <label for="newTask">
         Add a new task
-       <input name="newTask" type="text" placeholder="Enter a task" class="form-control" />
+       <input
+       v-model="task"
+       name="newTask"
+       type="text"
+       placeholder="Enter a task"
+       class="form-control"
+       />
     </label>
       <button @click="submitTask">Submit</button>
     </div>
@@ -18,19 +24,18 @@
         </tr>
       </thead>
       <tbody>
-        <td>Steal bananas from the store</td>
-        <td>To-do</td>
-        <td>
-          <div>
-            <span class="fa fa-pen"></span>
-          </div>
-        </td>
-          <div>
-            <span class="fa fa-trash"></span>
-          </div>
-        <td>
-
-        </td>
+        <tr v-for="(task, index) in tasks" :key="index">
+          <td> {{ task.title }}</td>
+          <td>{{ task.is_complete }}</td>
+          <td>
+            <div>
+              <span class="fa fa-pen"><button @click="editTask(index)">Edit</button></span>
+            </div>
+          </td>
+            <div>
+              <span class="fa fa-trash"><button @click="deleteTask(index)">Delete</button></span>
+            </div>
+        </tr>
       </tbody>
     </table>
   </div>
@@ -42,17 +47,44 @@ import taskStore from '@/store/task';
 
 export default {
   name: 'HomeView',
+  data() {
+    return {
+      task: '',
+      editedTask: null,
+      tasks: [
+        {
+          title: 'Steal bananas from the store',
+          is_complete: 'to-do',
+        },
+      ],
+    };
+  },
   computed: {
     ...mapState(taskStore, ['tasks']),
   },
   methods: {
-    ...mapActions(taskStore, ['fetchTasks']),
+    ...mapActions(taskStore, ['fetchTasks', 'addTask']),
     submitTask() {
-      console.log('Hello from the submit task method');
+      if (this.task.length === 0) return;
+
+      if (this.editedTask === null) {
+        this.tasks.push({
+          title: this.task,
+          is_complete: 'to-do',
+        });
+      } else {
+        this.tasks[this.editedTask].title = this.task;
+        this.editedTask = null;
+      }
+      this.task = '';
     },
-  },
-  created() {
-    this.fetchTasks();
+    deleteTask(index) {
+      this.tasks.splice(index, 1);
+    },
+    editTask(index) {
+      this.task = this.tasks[index].title;
+      this.editedTask = index;
+    },
   },
 };
 </script>
