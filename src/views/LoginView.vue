@@ -13,7 +13,7 @@
             />
         </label>
         <label for="password">
-            Email:
+            Password:
             <input
                 type="password"
                 name="password"

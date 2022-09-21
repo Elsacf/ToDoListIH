@@ -4,13 +4,7 @@ import userStore from './user';
 
 export default defineStore('tasks', {
   state: () => ({
-    tasks: [
-      {
-        title: '',
-        is_complete: '',
-
-      },
-    ],
+    tasks: [],
   }),
   actions: {
     async fetchTasks() {
@@ -19,43 +13,44 @@ export default defineStore('tasks', {
         .select('*')
         .order('id', { ascending: false });
       this.tasks = tasks;
-      return this.tasks;
     },
-    async addTask(title) {
-      const { data: tasks } = await supabase
+    async addTask(newTask) {
+      const { tasks, error } = await supabase
         .from('tasks')
         .insert([
           {
             user_id: userStore().user.id,
-            title,
+            title: newTask,
             is_complete: false,
+            inserted_at: new Date(),
           },
         ]);
-      this.tasks = tasks;
+      if (error) throw error;
+      if (tasks) this.tasks = this.tasks.push();
     },
-    async checkTaskItem(check, id) {
-      const { data: tasks } = await supabase
-        .from('tasks')
-        .update({ is_complete: check })
-        .match({ id });
+    // async checkTaskItem(check, id) {
+    //   const { data: tasks } = await supabase
+    //     .from('tasks')
+    //     .update({ is_complete: check })
+    //     .match({ id });
 
-      this.tasks = tasks;
-    },
-    async deleteTaskItem(id) {
-      const { data: tasks } = await supabase
-        .from('tasks')
-        .delete()
-        .match({ id });
+    //   this.tasks.title = tasks;
+    // },
+    // async deleteTaskItem(id) {
+    //   const { data: tasks } = await supabase
+    //     .from('tasks')
+    //     .delete()
+    //     .match({ id });
 
-      this.tasks = tasks;
-    },
-    async editTaskItem(title, id) {
-      const { data: tasks } = await supabase
-        .from('tasks')
-        .update(title)
-        .match({ id });
+    //   this.tasks = tasks;
+    // },
+    // async editTaskItem(title, id) {
+    //   const { data: tasks } = await supabase
+    //     .from('tasks')
+    //     .update(title)
+    //     .match({ id });
 
-      this.tasks = tasks;
-    },
+    //   this.tasks = tasks;
+    // },
   },
 });
