@@ -5,7 +5,7 @@
       <label for="newTask">
         Add a new task
        <input
-       v-model="task"
+       v-model="newTask"
        name="newTask"
        type="text"
        placeholder="Enter a task"
@@ -29,11 +29,11 @@
           <td>{{ task.is_complete }}</td>
           <td>
             <div>
-              <span class="fa fa-pen"><button @click="editTask(index)">Edit</button></span>
+              <span><button @click="editTask(index)">Edit</button></span>
             </div>
           </td>
             <div>
-              <span class="fa fa-trash"><button @click="deleteTask(index)">Delete</button></span>
+              <span><button @click="deleteTask(index)">Delete</button></span>
             </div>
         </tr>
       </tbody>
@@ -49,34 +49,27 @@ export default {
   name: 'HomeView',
   data() {
     return {
-      task: '',
+      newTask: '',
       editedTask: null,
-      tasks: [
+      newTasks:
         {
-          title: 'Steal bananas from the store',
-          is_complete: 'to-do',
+          title: '',
+          is_complete: '',
         },
-      ],
     };
   },
   computed: {
     ...mapState(taskStore, ['tasks']),
   },
   methods: {
-    ...mapActions(taskStore, ['fetchTasks', 'addTask']),
+    ...mapActions(taskStore, ['fetchTasks', 'addTask', 'deleteTaskItem', 'editTaskItem']),
     submitTask() {
-      if (this.task.length === 0) return;
-
-      if (this.editedTask === null) {
-        this.tasks.push({
-          title: this.task,
-          is_complete: 'to-do',
-        });
-      } else {
-        this.tasks[this.editedTask].title = this.task;
-        this.editedTask = null;
-      }
-      this.task = '';
+      if (this.newTask.length === 0) return;
+      this.tasks.push({
+        title: this.newTask,
+        is_complete: false,
+      });
+      this.addTask(this.tasks);
     },
     deleteTask(index) {
       this.tasks.splice(index, 1);
