@@ -14,19 +14,18 @@ export default defineStore('tasks', {
         .order('id', { ascending: false });
       this.tasks = tasks;
     },
-    async addTask(newTask) {
+    async addTask(title) {
       const { tasks, error } = await supabase
         .from('tasks')
         .insert([
           {
             user_id: userStore().user.id,
-            title: newTask,
+            title,
             is_complete: false,
-            inserted_at: new Date(),
           },
         ]);
       if (error) throw error;
-      if (tasks) this.tasks = this.tasks.push();
+      if (tasks) this.tasks = tasks;
     },
     // async checkTaskItem(check, id) {
     //   const { data: tasks } = await supabase
@@ -44,13 +43,16 @@ export default defineStore('tasks', {
 
     //   this.tasks = tasks;
     // },
-    // async editTaskItem(title, id) {
-    //   const { data: tasks } = await supabase
-    //     .from('tasks')
-    //     .update(title)
-    //     .match({ id });
+    async editTaskItem(title, id) {
+      const { tasks, error } = await supabase
+        .from('tasks')
+        .update(title)
+        .match({ id });
 
-    //   this.tasks = tasks;
-    // },
+      this.tasks = tasks;
+
+      if (error) throw error;
+      if (tasks) this.tasks = tasks;
+    },
   },
 });
