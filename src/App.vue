@@ -9,17 +9,14 @@
 <script>
 import userStore from '@/store/user';
 import { mapState, mapActions } from 'pinia';
-import taskStore from '@/store/task';
 
 export default {
   name: 'App',
   computed: {
     ...mapState(userStore, ['user']),
-    ...mapState(taskStore, ['task']),
   },
   methods: {
     ...mapActions(userStore, ['fetchUser', 'signUp', 'signIn']),
-    ...mapActions(taskStore, ['fetchTasks', 'addTask', 'deleteTaskItem', 'editTaskItem']),
   },
   async created() {
     try {

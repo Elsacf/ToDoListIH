@@ -18,6 +18,7 @@
 <script>
 import { mapState, mapActions } from 'pinia';
 import taskStore from '@/store/task';
+import userStore from '@/store/user';
 
 export default {
   name: 'todoForm',
@@ -28,12 +29,14 @@ export default {
   },
   computed: {
     ...mapState(taskStore, ['tasks']),
+    ...mapState(userStore, ['user']),
   },
   methods: {
     ...mapActions(taskStore, ['fetchTasks', 'addTask']),
     submitTask() {
       if (this.title.length !== 0) {
-        this.addTask(this.title);
+        this.addTask(this.title, this.user.id);
+        this.title = '';
       }
     },
   },

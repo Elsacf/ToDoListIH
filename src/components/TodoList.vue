@@ -11,16 +11,16 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(task, index) in tasks" :key="index">
-          <td> {{ tasks.title }}</td>
-          <td>{{ tasks.is_complete }}</td>
+        <tr v-for="task in tasks" :key="task.id">
+          <td> {{ task.title }}</td>
+          <td>{{ task.is_complete }}</td>
           <td>
             <div>
-              <span><button @click="editTask(index)">Edit</button></span>
+              <span><button @click="editTask(task.id)">Edit</button></span>
             </div>
           </td>
             <div>
-              <span><button @click="deleteTask(index)">Delete</button></span>
+              <span><button @click="deleteTask(task.id)">Delete</button></span>
             </div>
         </tr>
       </tbody>
@@ -34,23 +34,22 @@ import taskStore from '@/store/task';
 
 export default {
   name: 'todoList',
-  data() {
-    return {
-      tasks: [],
-    };
-  },
   computed: {
     ...mapState(taskStore, ['tasks']),
   },
   methods: {
-    ...mapActions(taskStore, ['fetchTasks']),
-    deleteTask(index) {
-      this.tasks.splice(index, 1);
+    ...mapActions(taskStore, ['fetchTasks', 'deleteTaskItem', 'editTaskItem']),
+    deleteTask(taskId) {
+      this.deleteTaskItem(taskId);
     },
-    editTask(index) {
-      this.task = this.tasks[index].title;
-      this.editedTask = index;
+    editTask(taskId) {
+      this.editTaskItem(taskId);
+      // this.task = this.tasks[index].title;
+      // this.editedTask = index;
     },
+  },
+  created() {
+    this.fetchTasks();
   },
 };
 </script>
