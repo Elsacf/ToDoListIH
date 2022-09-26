@@ -37,19 +37,6 @@ export default defineStore('tasks', {
         this.tasks.splice(taskIndex, 1);
       }
     },
-    async editTaskItem(title, taskId) {
-      const { data: task, error } = await supabase
-        .from('tasks')
-        .update(title)
-        .match({ id: taskId });
-
-      if (error) throw error;
-      if (task) {
-        const taskIndex = this.tasks.findIndex((elem) => elem.id === taskId);
-        this.tasks[taskIndex].title = 'no';
-        console.log(this.tasks[taskIndex].title);
-      }
-    },
     async checkTaskItem(isComplete, taskId) {
       const { data: task, error } = await supabase
         .from('tasks')
@@ -59,7 +46,21 @@ export default defineStore('tasks', {
       if (error) throw error;
       if (task) {
         const taskIndex = this.tasks.findIndex((elem) => elem.id === taskId);
+        console.log(taskIndex);
         this.tasks[taskIndex].isComplete = true;
+      }
+    },
+    async editTaskItem(title, taskId) {
+      const { data: [task], error } = await supabase
+        .from('tasks')
+        .update(title)
+        .match({ id: taskId });
+
+      if (error) throw error;
+      if (task) {
+        const taskIndex = this.tasks.findIndex((elem) => elem.id === taskId);
+        this.tasks[taskIndex].title = 'no';
+        console.log(this.tasks[taskIndex].title);
       }
     },
   },
