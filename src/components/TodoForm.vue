@@ -13,6 +13,16 @@
     </label>
       <button @click="submitTask">Submit</button>
     </div>
+    <div class="modalContent" v-if="showModal">
+      <transition name="fade">
+        <div class="modal-overlay"></div>
+      </transition>
+      <modal name="fade">
+        <div class="modal"></div>
+        <p>Tu tarea debe tener por lo menos dos palabras</p>
+        <button @click="showModal=false">Cerrar</button>
+      </modal>
+    </div>
 </template>
 
 <script>
@@ -25,6 +35,7 @@ export default {
   data() {
     return {
       title: '',
+      showModal: false,
     };
   },
   computed: {
@@ -37,6 +48,8 @@ export default {
       if (this.title.length !== 0) {
         this.addTask(this.title, this.user.id);
         this.title = '';
+      } else {
+        this.showModal = true;
       }
     },
   },

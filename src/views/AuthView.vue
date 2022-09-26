@@ -47,6 +47,26 @@
     </form>
     <button @click="handleSignUp">Sign Up</button>
     <p>Have registered already?</p><router-link to="/login">Click here</router-link>
+    <div class="modalContent" v-if="noConfirmModal">
+      <transition name="fade">
+        <div class="modal-overlay"></div>
+      </transition>
+      <modal name="fade">
+        <div class="modal"></div>
+        <p>La confirmación no coincide con el email introducido</p>
+        <button @click="noConfirmModal=false">Cerrar</button>
+      </modal>
+    </div>
+    <div class="modalContent" v-if="signUpModal">
+      <transition name="fade">
+        <div class="modal-overlay"></div>
+      </transition>
+      <modal name="fade">
+        <div class="modal"></div>
+        <p>La confirmación no coincide con el email introducido</p>
+        <button @click="signUpModal=false">Cerrar</button>
+      </modal>
+    </div>
 </template>
 
 <script>
@@ -61,6 +81,8 @@ export default {
       email: '',
       password: '',
       confirm: '',
+      noConfirmModal: false,
+      signUpModal: false,
     };
   },
   computed: {
@@ -73,7 +95,10 @@ export default {
       const enteredConfirm = this.confirm;
 
       if (enteredPassword === enteredConfirm) {
+        this.signUpModal = true;
         this.signUp(this.email, this.password);
+      } else {
+        this.noConfirmModal = true;
       }
     },
   },
