@@ -1,42 +1,43 @@
 <template>
-  <h1>Lista de tareas</h1>
-    <div v-if="tasks.length === 0">
+    <div v-if="tasks.length === 0" class="empty-table-message">
       <h2>¡Bienvenido!</h2>
       <h3>Anota tu primera tarea</h3>
     </div>
-    <div>
-        <table>
-      <thead>
-        <tr>
-          <th scope="col">Task</th>
-          <th scope="col">Status</th>
-          <th scope="col">#</th>
-          <th scope="col">#</th>
-          <th scope="col">#</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="task in tasks" :key="task.id">
-          <td> {{ task.title }}</td>
-          <td>{{ task.is_complete }}</td>
-          <td>
-            <div>
-              <span><button @click="checkTask(task.id)">Done</button></span>
-            </div>
-          </td>
-          <td>
-            <div>
-              <span><button @click="editTask(task.id)">Edit</button></span>
-            </div>
-          </td>
-          <td>
-            <div>
-              <span><button @click="deleteTask(task.id)">Delete</button></span>
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="table-container">
+        <table class="table-tasks">
+        <thead class="table-headings">
+          <tr>
+            <th scope="col">Check</th>
+            <th scope="col">Task</th>
+            <th scope="col">Status</th>
+            <th scope="col">Edit</th>
+            <th scope="col">Delete</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="task in tasks" :key="task.id">
+            <td>
+              <div>
+                <span><button @click="checkTask(task.id, task.isComplete)">Done</button></span>
+              </div>
+            </td>
+            <td> {{ task.title }}</td>
+            <td>{{ task.is_complete }}</td>
+            <td>
+              <div>
+                <span><button @click="editTask(task.id)">
+                  <img src="../assets/edit.svg" alt="edit-button"></button></span>
+              </div>
+            </td>
+            <td>
+              <div>
+                <span><button @click="deleteTask(task.id)">
+                  <img src="../assets/delete.svg" alt="delete-button"></button></span>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
 </template>
 
@@ -55,12 +56,12 @@ export default {
       this.deleteTaskItem(taskId);
     },
     editTask(taskId) {
-      this.editTaskItem(taskId);
-      // this.task = this.tasks[index].title;
+      const newTitle = prompt('Introduce el nuevo título de la tarea');
+      this.editTaskItem(taskId, newTitle);
       // this.editedTask = index;
     },
-    checkTask(taskId) {
-      this.checkTaskItem(taskId);
+    checkTask(taskId, isComplete) {
+      this.checkTaskItem(taskId, !isComplete);
     },
   },
   created() {
@@ -68,3 +69,24 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+  .table-container {
+    width: 75%;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #CFD2CF;
+    border-style: solid;
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+    justify-content: center;
+  }
+  table {
+    margin-left: auto;
+    margin-right: auto;
+    width: 80%;
+  }
+  .table-headings {
+    text-align: center;
+  }
+</style>

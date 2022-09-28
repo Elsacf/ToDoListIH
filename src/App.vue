@@ -1,7 +1,14 @@
 <template>
-  <nav v-if="user !== null">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/auth">Sign out</router-link> |
+  <nav class="navbar" v-if="user !== null">
+    <div class="navbar-container">
+      <div>
+        <span class="navbar-brand">To-Do List</span>
+      </div>
+      <div class="buttons">
+        <router-link class="navbar-button" to="/">Home</router-link>
+        <router-link class="navbar-button" to="/auth">Sign out</router-link>
+      </div>
+    </div>
   </nav>
   <router-view/>
 </template>
@@ -43,16 +50,49 @@ export default {
   color: #2c3e50;
 }
 
-nav {
-  padding: 30px;
+.navbar {
+  padding: 10px;
+  background-color: #EB1D36;
+  width: 100%;
+}
+.navbar-brand {
+  color: #F5EDDC;
+  font-weight: bolder;
+  font-size: 2.5rem;
+}
+.buttons {
+  margin-top: 1.2rem;
+}
+.navbar-button {
+  width: 100px;
+  text-align: center;
+  font-size: 1.1rem;
+  padding-top: 1.2rem;
+  margin: 1rem;
+}
+.navbar-container {
+  display: flex;
 }
 
 nav a {
   font-weight: bold;
-  color: #2c3e50;
+  color: #EB1D36;
+  background-color: #F5EDDC;
+  width: 120%;
+  padding: 0.8rem;
+  border-radius: 10%;
+  text-decoration: none;
+  border: black 1px;
+  text-align: center;
+}
+a:hover {
+  color: black;
 }
 
 nav a.router-link-exact-active {
-  color: #42b983;
+  color: black
+}
+a.router-link-exact-active:hover {
+  color: #EB1D36;
 }
 </style>
