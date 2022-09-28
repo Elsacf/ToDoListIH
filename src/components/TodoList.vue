@@ -1,9 +1,9 @@
 <template>
     <div v-if="tasks.length === 0" class="empty-table-message">
-      <h2>¡Bienvenido!</h2>
-      <h3>Anota tu primera tarea</h3>
+      <h2 class="empty-title">¡Bienvenido!</h2>
+      <h3 class="empty-message">Anota tu primera tarea</h3>
     </div>
-    <div class="table-container">
+    <div v-if="tasks.length !== 0" class="table-container">
         <table class="table-tasks">
         <thead class="table-headings">
           <tr>
@@ -88,5 +88,11 @@ export default {
   }
   .table-headings {
     text-align: center;
+  }
+  .empty-table-message {
+    text-align: center;
+  }
+  .empty-title {
+    color: #EB1D36;
   }
 </style>
