@@ -1,9 +1,9 @@
 <template>
     <div class="backdrop">
       <div class="modal">
-        <h3>{{ header }}</h3>
-        <p>{{ text }}</p>
-        <button @click="closeModal">Cerrar</button>
+        <h3 class="modal-header">{{ header }}</h3>
+        <p class="modal-text">{{ text }}</p>
+        <button class="modal-button" @click="closeModal">Cerrar</button>
       </div>
     </div>
 </template>
@@ -30,12 +30,24 @@ export default {
   }
   .modal {
     width: 400px;
-    height: 200px;
+    height: 250px;
     padding: 20px;
     margin-top: 100px;
     margin-left: 500px;
-    background: white;
+    background: #F5EDDC;
     border-radius: 10px;
     display: unset;
+    border: solid 2px #EB1D36;
+  }
+  .modal-header {
+    color: #EB1D36;
+    font-weight: bolder;
+    padding-left: 35%;
+  }
+  .modal-text {
+    font-size: 1.2em;
+  }
+  .modal-button {
+    background-color: #CFD2CF;
   }
 </style>

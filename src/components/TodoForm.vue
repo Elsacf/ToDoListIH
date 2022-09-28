@@ -1,16 +1,18 @@
 <template>
     <div class="task-form">
-      <label for="title">
-        Add a new task
-       <input
-       v-model="title"
-       name="title"
-       type="text"
-       placeholder="Enter a task"
-       class="form-control"
-       />
-    </label>
-      <button @click="submitTask">Submit</button>
+      <div class="form-container">
+        <label for="title">
+          Add a new task
+          <input
+          v-model="title"
+          name="title"
+          type="text"
+          placeholder="Enter a task"
+          class="form-control"
+          />
+        </label>
+        <button @click="submitTask">Submit</button>
+      </div>
     </div>
     <div v-if="showErrorModal">
       <ErrorModal :header='header' :text='text' @close="toggleModal"/>
@@ -74,6 +76,10 @@ export default {
     padding: 3rem;
     border-style: solid;
   }
+  .form-container {
+    width: 80%;
+    margin-left: 10%;
+  }
   label {
     font-size: 1.5rem;
     font-weight: bold;
@@ -81,5 +87,8 @@ export default {
   button {
     background-color: #EB1D36;
     color: #CFD2CF;
+  }
+  .form-control {
+    width: 95%;
   }
 </style>
