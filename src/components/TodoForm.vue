@@ -1,6 +1,5 @@
 <template>
-    <h1>Formulario</h1>
-    <div>
+    <div class="task-form">
       <label for="title">
         Add a new task
        <input
@@ -13,15 +12,8 @@
     </label>
       <button @click="submitTask">Submit</button>
     </div>
-    <div class="modalContent" v-if="showModal">
-      <transition name="fade">
-        <div class="modal-overlay"></div>
-      </transition>
-      <modal name="fade">
-        <div class="modal"></div>
-        <p>Tu tarea debe tener por lo menos dos palabras</p>
-        <button @click="showModal=false">Cerrar</button>
-      </modal>
+    <div v-if="showErrorModal">
+      <ErrorModal :header='header' :text='text' @close="toggleModal"/>
     </div>
 </template>
 
@@ -29,13 +21,16 @@
 import { mapState, mapActions } from 'pinia';
 import taskStore from '@/store/task';
 import userStore from '@/store/user';
+import ErrorModal from './ErrorModal.vue';
 
 export default {
   name: 'todoForm',
   data() {
     return {
       title: '',
-      showModal: false,
+      showErrorModal: false,
+      header: 'Cuidado',
+      text: 'Tu tarea debe contener al menos dos palabras',
     };
   },
   computed: {
@@ -49,8 +44,11 @@ export default {
         this.addTask(this.title, this.user.id);
         this.title = '';
       } else {
-        this.showModal = true;
+        this.showErrorModal = true;
       }
+    },
+    toggleModal() {
+      this.showErrorModal = false;
     },
   },
   watch: {
@@ -60,5 +58,28 @@ export default {
       }
     },
   },
+  components: { ErrorModal },
 };
 </script>
+
+<style scoped>
+  .task-form {
+    margin-top: 5px;
+    margin-bottom: 75px;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #CFD2CF;
+    width: 75%;
+    height: 10rem;
+    padding: 3rem;
+    border-style: solid;
+  }
+  label {
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+  button {
+    background-color: #EB1D36;
+    color: #CFD2CF;
+  }
+</style>

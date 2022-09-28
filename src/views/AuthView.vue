@@ -47,23 +47,23 @@
     </form>
     <button @click="handleSignUp">Sign Up</button>
     <p>Have registered already?</p><router-link to="/login">Click here</router-link>
-    <div class="modalContent" v-if="noConfirmModal">
-      <transition name="fade">
-        <div class="modal-overlay"></div>
-      </transition>
-      <modal name="fade">
-        <div class="modal"></div>
-        <p>La confirmación no coincide con el email introducido</p>
-        <button @click="noConfirmModal=false">Cerrar</button>
-      </modal>
-    </div>
+      <div>
+        <ErrorModal v-if="errors.length !== 0"
+        header='Cuidado'
+        text='Corrige los siguientes errores'>
+          <ul>
+            <li v-for="error in errors" :key="error">{{ error }}</li>
+          </ul>
+          <button @click="errorModal=false">Cerrar</button>
+        </ErrorModal>
+      </div>
     <div class="modalContent" v-if="signUpModal">
       <transition name="fade">
         <div class="modal-overlay"></div>
       </transition>
       <modal name="fade">
         <div class="modal"></div>
-        <p>La confirmación no coincide con el email introducido</p>
+        <p>Genial! Te hemos enviado un email a tu bandeja de entrada</p>
         <button @click="signUpModal=false">Cerrar</button>
       </modal>
     </div>
@@ -72,16 +72,20 @@
 <script>
 import userStore from '@/store/user';
 import { mapState, mapActions } from 'pinia';
+import errorModal from '@/components/ErrorModal.vue';
 
 export default {
   name: 'AuthView',
+  components: { errorModal },
   data() {
     return {
       name: '',
       email: '',
       password: '',
       confirm: '',
-      noConfirmModal: false,
+      header: '',
+      text: '',
+      errors: [],
       signUpModal: false,
     };
   },
@@ -91,14 +95,26 @@ export default {
   methods: {
     ...mapActions(userStore, ['signUp']),
     handleSignUp() {
+      const expReg = /[a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,15})/i.test(this.email);
+      const expPassword = /^(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{8,16}$/.test(this.password);
       const enteredPassword = this.password;
       const enteredConfirm = this.confirm;
 
-      if (enteredPassword === enteredConfirm) {
-        this.signUpModal = true;
-        this.signUp(this.email, this.password);
+      if (!this.name) {
+        this.errors.push('Introduce un nombre correcto');
+      } else if (!this.email) {
+        this.errors.push('Introduce una dirección de email');
+      } else if (!expReg) {
+        this.errors.push('Introduce un email válido');
+      } else if (!this.password) {
+        this.errors.push('Introduce una contraseña');
+      } else if (!expPassword) {
+        this.errors.push('Introduce una contraseña válida');
+      } else if (enteredPassword !== enteredConfirm) {
+        this.errors.push('Introduce el mismo password');
       } else {
-        this.noConfirmModal = true;
+        this.signUp(this.email, this.password);
+        this.signUpModal = true;
       }
     },
   },

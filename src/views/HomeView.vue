@@ -1,7 +1,5 @@
 <template>
   <div class="home">
-    <navbarVue />
-    <h1>Esta es la vista de Home</h1>
     <todoForm />
     <todoList />
   </div>
@@ -9,7 +7,6 @@
 
 <script>
 import todoList from '@/components/TodoList.vue';
-import navbarVue from '@/components/NavbarVue.vue';
 import todoForm from '../components/TodoForm.vue';
 
 export default {
@@ -20,7 +17,12 @@ export default {
   components: {
     todoForm,
     todoList,
-    navbarVue,
   },
 };
 </script>
+
+<style scoped>
+.home {
+  margin-top: 10%;
+}
+</style>
