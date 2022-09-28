@@ -50,18 +50,21 @@
     <p class="signin-box-text">¿Ya estás registrado?</p>
     <router-link class="signin-box-link" to="/login">Entra en tu sesión</router-link>
     </div>
-      <div v-if="errors.length !== 0">
-        <ErrorModal :header='header' :text='text' @close="toggleModal"/>
-      </div>
-    <div class="modalContent" v-if="signUpModal">
-      <transition name="fade">
-        <div class="modal-overlay"></div>
-      </transition>
-      <modal name="fade">
-        <div class="modal"></div>
-        <p>Genial! Te hemos enviado un email a tu bandeja de entrada</p>
-        <button @click="signUpModal=false">Cerrar</button>
-      </modal>
+
+    <errorSignupModal v-if="errors.length !== 0">
+        <div class="backdrop-error-modal">
+          <div class="modal">
+            <h3>Cuidado!</h3>
+            <ul>
+              <li v-for="error in errors" :key="error">{{ error }}</li>
+            </ul>
+            <button @click="toggleErrorSignupModal">Cerrar</button>
+          </div>
+        </div>
+      </errorSignupModal>
+
+      <div v-if="signUpConfirmModal">
+      <SignUpConfirmModal :header='header' :text='text' @close="toggleConfirmModal"/>
     </div>
   </div>
 </template>
@@ -69,22 +72,21 @@
 <script>
 import userStore from '@/store/user';
 import { mapState, mapActions } from 'pinia';
-import errorModal from '@/components/ErrorModal.vue';
+import signUpConfirmModal from '@/components/SignUpConfirmModal.vue';
 
 export default {
   name: 'AuthView',
-  components: { errorModal },
+  components: { signUpConfirmModal },
   data() {
     return {
       name: '',
       email: '',
       password: '',
       confirm: '',
-      header: 'Cuidado',
-      text: 'Hay algunos errores en el formulario',
+      header: '¡Ya estás dentro',
+      text: 'Revisa tu bandeja de entrada. Te hemos enviado un email para que confirmes tu suscripción.',
       errors: [],
-      showErrorModal: false,
-      signUpModal: false,
+      signUpConfirmModal: false,
     };
   },
   computed: {
@@ -93,27 +95,33 @@ export default {
   methods: {
     ...mapActions(userStore, ['signUp']),
     handleSignUp() {
-      const expReg = /[a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,15})/i.test(this.email);
-      const expPassword = /^(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{8,16}$/.test(this.password);
+      const expEmail = /[a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,15})/i.test(this.email);
+      const expPassword = /^(?=\w*\d)(?=\w*[A-Z])(?=\w*[a-z])\S{8,16}$/i.test(this.password);
       const enteredPassword = this.password;
       const enteredConfirm = this.confirm;
 
       if (!this.name) {
-        this.errors.push('Introduce un nombre correcto');
+        this.errors.push('Falta un nombre');
       } else if (!this.email) {
-        this.errors.push('Introduce una dirección de email');
-      } else if (!expReg) {
-        this.errors.push('Introduce un email válido');
+        this.errors.push('Falta una dirección de email');
+      } else if (!expEmail) {
+        this.errors.push('El email no es válido');
       } else if (!this.password) {
-        this.errors.push('Introduce una contraseña');
+        this.errors.push('Falta una contraseña');
       } else if (!expPassword) {
-        this.errors.push('Introduce una contraseña válida');
+        this.errors.push('La contraseña no es válida');
       } else if (enteredPassword !== enteredConfirm) {
-        this.errors.push('Introduce el mismo password');
+        this.errors.push('La contraseñsa no coincide');
       } else {
+        this.signUpConfirmModal = true;
         this.signUp(this.email, this.password);
-        this.signUpModal = true;
       }
+    },
+    toggleConfirmModal() {
+      this.signUpConfirmModal = false;
+    },
+    toggleErrorSignupModal() {
+      this.errors = [];
     },
   },
   watch: {
@@ -170,4 +178,22 @@ label {
 .signin-box-link:hover {
   color: #CFD2CF;
 }
+.backdrop-error-modal {
+    width: 100%;
+    height: 100%;
+    top: 0;
+    position: fixed;
+    background: rgba(0,0,0,0.5);
+  }
+  .modal {
+    width: 400px;
+    height: 250px;
+    padding: 20px;
+    margin-top: 100px;
+    margin-left: 500px;
+    background: #F5EDDC;
+    border-radius: 10px;
+    display: unset;
+    border: solid 2px #EB1D36;
+  }
 </style>
