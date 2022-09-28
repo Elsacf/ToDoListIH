@@ -1,10 +1,10 @@
 <template>
-    <h1>Esta es la vista de SignUp/In</h1>
-    <h4>Register and start to organize your tasks</h4>
+  <div class="registration-form">
+    <h1>Regístrate y empieza a organizar tus tareas</h1>
     <form>
-      <div class="formContainer">
+      <div class="form-container">
         <label for="name" class="label">
-          Enter your name:
+          Nombre:
           <input
             type="text"
             name="name"
@@ -14,7 +14,7 @@
           />
         </label>
         <label for="email" class="label">
-          Enter your email:
+          Email:
           <input
             type="text"
             name="email"
@@ -24,7 +24,7 @@
           />
         </label>
         <label for="password" class="label">
-          Enter your password:
+          Contraseña:
           <input
             type="password"
             name="password"
@@ -34,7 +34,7 @@
           />
         </label>
         <label for="passwordRepeat" class="label">
-          Confirm your password:
+          Confirma tu contraseña:
           <input
             type="password"
             name="passwordRepeat"
@@ -45,17 +45,13 @@
         </label>
       </div>
     </form>
-    <button @click="handleSignUp">Sign Up</button>
-    <p>Have registered already?</p><router-link to="/login">Click here</router-link>
-      <div>
-        <ErrorModal v-if="errors.length !== 0"
-        header='Cuidado'
-        text='Corrige los siguientes errores'>
-          <ul>
-            <li v-for="error in errors" :key="error">{{ error }}</li>
-          </ul>
-          <button @click="errorModal=false">Cerrar</button>
-        </ErrorModal>
+    <button class="sign-up-button" @click="handleSignUp">Sign Up</button>
+    <div class="signin-box">
+    <p class="signin-box-text">¿Ya estás registrado?</p>
+    <router-link class="signin-box-link" to="/login">Entra en tu sesión</router-link>
+    </div>
+      <div v-if="errors.length !== 0">
+        <ErrorModal :header='header' :text='text' @close="toggleModal"/>
       </div>
     <div class="modalContent" v-if="signUpModal">
       <transition name="fade">
@@ -67,6 +63,7 @@
         <button @click="signUpModal=false">Cerrar</button>
       </modal>
     </div>
+  </div>
 </template>
 
 <script>
@@ -83,9 +80,10 @@ export default {
       email: '',
       password: '',
       confirm: '',
-      header: '',
-      text: '',
+      header: 'Cuidado',
+      text: 'Hay algunos errores en el formulario',
       errors: [],
+      showErrorModal: false,
       signUpModal: false,
     };
   },
@@ -128,3 +126,48 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.registration-form {
+  margin-top: 100px;
+  text-align: center;
+}
+.form-container {
+  width: 75%;
+  margin-top: 50px;
+  margin-left: 37%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1.5rem;
+}
+.sign-up-button {
+  margin-top: 2rem;
+  background-color: #EB1D36;
+  color: white;
+}
+.signin-box{
+  margin-top: 3rem;
+  background-color: #F5EDDC;
+  height: 6rem;
+  margin-left: 35%;
+  width: 30%;
+  border: solid #EB1D36;
+  padding-top: 1.3rem;
+}
+label {
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+.signin-box-text{
+  font-weight: bold;
+}
+.signin-box-link {
+  text-decoration: none;
+  color:#EB1D36;
+  font-weight: bold;
+}
+.signin-box-link:hover {
+  color: #CFD2CF;
+}
+</style>

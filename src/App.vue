@@ -1,16 +1,18 @@
 <template>
-  <nav class="navbar" v-if="user !== null">
-    <div class="navbar-container">
-      <div>
-        <span class="navbar-brand">To-Do List</span>
+  <div>
+    <nav v-if="user !== null">
+      <div class="navbar-container">
+        <div>
+          <span class="navbar-brand">To-Do List</span>
+        </div>
+        <div class="buttons">
+          <router-link class="navbar-button" to="/">Home</router-link>
+          <router-link class="navbar-button" to="/auth">Sign out</router-link>
+        </div>
       </div>
-      <div class="buttons">
-        <router-link class="navbar-button" to="/">Home</router-link>
-        <router-link class="navbar-button" to="/auth">Sign out</router-link>
-      </div>
-    </div>
-  </nav>
-  <router-view/>
+    </nav>
+    <router-view/>
+  </div>
 </template>
 
 <script>
@@ -46,15 +48,8 @@ export default {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
 }
 
-.navbar {
-  padding: 10px;
-  background-color: #EB1D36;
-  width: 100%;
-}
 .navbar-brand {
   color: #F5EDDC;
   font-weight: bolder;
@@ -72,6 +67,9 @@ export default {
 }
 .navbar-container {
   display: flex;
+  padding: 10px;
+  background-color: #EB1D36;
+  width: 100%;
 }
 
 nav a {
