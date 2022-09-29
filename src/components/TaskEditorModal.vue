@@ -6,24 +6,38 @@
         <label for="title">
           Introduce el nuevo título de la tarea
           <input
-          v-model="title"
-          name="title"
+          v-model="newTitle"
+          name="newTitle"
           type="text"
-          placeholder="Enter a task"
           class="form-control"
           />
         </label>
-        <button @click="submitTask">Submit</button>
         <button class="close-button" @click="closeModal">Cancelar</button>
+        <button class="edit-button" @click="editTitle(task.id)">Submit</button>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import { mapState, mapActions } from 'pinia';
+import taskStore from '@/store/task';
+
 export default {
   name: 'taskEditorModal',
+  data() {
+    return {
+      newTitle: '',
+    };
+  },
+  computed: {
+    ...mapState(taskStore, ['tasks']),
+  },
   methods: {
+    ...mapActions(taskStore, ['editTaskItem']),
+    editTitle(taskId) {
+      this.editTaskItem(taskId, this.newTitle);
+    },
     closeEditorModal() {
       this.$emit('close');
     },
@@ -49,17 +63,19 @@ export default {
     border-radius: 10px;
     display: unset;
     border: solid 2px #EB1D36;
-  }
-  .modal-header {
-    color: #EB1D36;
-    font-weight: bolder;
-    padding-left: 35%;
+    text-align: center;
   }
   label {
     font-size: 1.5rem;
     font-weight: bold;
+    color: #EB1D36;
+    margin-bottom: 15px;
   }
   .close-button {
     background-color: #CFD2CF;
+  }
+  .edit-button {
+    background-color: #EB1D36;
+    color: white;
   }
 </style>
