@@ -14,14 +14,17 @@
             <th scope="col">Delete</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody class="table-body">
           <tr v-for="task in tasks" :key="task.id">
             <td>
               <div>
                 <span><button @click="checkTask(task.id, task.isComplete)">Done</button></span>
               </div>
             </td>
-            <td> {{ task.title }}</td>
+            <td v-bind:class="{
+              taskTitle: task.is_complete === false,
+              taskCompletedTitle: task.is_complete === true }">
+              {{ task.title }}</td>
             <td>{{ task.is_complete }}</td>
             <td>
               <div>
@@ -39,14 +42,22 @@
         </tbody>
       </table>
     </div>
+    <taskEditorModal v-if="showTaskEditor"/>
 </template>
 
 <script>
 import { mapState, mapActions } from 'pinia';
 import taskStore from '@/store/task';
+import TaskEditorModal from '@/components/TaskEditorModal.vue';
 
 export default {
   name: 'todoList',
+  data() {
+    return {
+      showTaskEditor: false,
+    };
+  },
+  components: { TaskEditorModal },
   computed: {
     ...mapState(taskStore, ['tasks']),
   },
@@ -89,10 +100,19 @@ export default {
   .table-headings {
     text-align: center;
   }
+  .table-body {
+    text-align: center;
+  }
   .empty-table-message {
     text-align: center;
   }
   .empty-title {
     color: #EB1D36;
+  }
+  .taskTitle {
+    font-weight: bold;
+  }
+  .taskCompletedTitle {
+    text-decoration: line-through;
   }
 </style>
