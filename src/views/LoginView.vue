@@ -1,7 +1,8 @@
 <template>
-  <h1>Go to your account</h1>
+  <div class="login-form">
+  <h1>Accede a tu cuenta</h1>
   <form>
-    <div class="formContainer">
+    <div class="login-form-container">
         <label for="email">
             Email:
             <input
@@ -13,7 +14,7 @@
             />
         </label>
         <label for="password">
-            Email:
+            Password:
             <input
                 type="password"
                 name="password"
@@ -24,7 +25,8 @@
         </label>
     </div>
   </form>
-  <button @click="handleSignIn">Sign In</button>
+    <button class="sign-in-button" @click="handleSignIn">Sign In</button>
+  </div>
 </template>
 
 <script>
@@ -58,3 +60,24 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+  .login-form {
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    margin-top: 4rem;
+  }
+  .login-form-container {
+    margin-top: 3rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  .sign-in-button {
+    margin-top: 3rem;
+    background-color: #EB1D36;
+    color: white;
+  }
+</style>
