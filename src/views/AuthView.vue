@@ -45,7 +45,7 @@
         </label>
       </div>
     </form>
-    <button class="sign-up-button" @click="handleSignUp">Sign Up</button>
+    <button class="sign-up-button" @click="handleSignUp">Crear cuenta</button>
     <div class="signin-box">
     <p class="signin-box-text">¿Ya estás registrado?</p>
     <router-link class="signin-box-link" to="/login">Entra en tu sesión</router-link>

@@ -5,27 +5,17 @@
     </div>
     <div v-if="tasks.length !== 0" class="table-container">
         <table class="table-tasks">
-        <thead class="table-headings">
-          <tr>
-            <th scope="col">Check</th>
-            <th scope="col">Task</th>
-            <th scope="col">Status</th>
-            <th scope="col">Edit</th>
-            <th scope="col">Delete</th>
-          </tr>
-        </thead>
         <tbody class="table-body">
           <tr v-for="task in tasks" :key="task.id">
             <td>
               <div>
-                <span><button @click="checkTask(task.id, task.isComplete)">Done</button></span>
+                <span><button @click="checkTask(task.id, task.isComplete)">Hecho</button></span>
               </div>
             </td>
             <td v-bind:class="{
               taskTitle: task.is_complete === false,
               taskCompletedTitle: task.is_complete === true }">
               {{ task.title }}</td>
-            <td>{{ task.is_complete }}</td>
             <td>
               <div>
                 <span><button @click="editTask(task.id)">
@@ -42,7 +32,7 @@
         </tbody>
       </table>
     </div>
-    <taskEditorModal v-if="showTaskEditor"/>
+    <taskEditorModal v-if="showTaskEditor" :taskId="editTaskId" @close="toggleTaskEditor" />
 </template>
 
 <script>
@@ -55,6 +45,7 @@ export default {
   data() {
     return {
       showTaskEditor: false,
+      editTaskId: null,
     };
   },
   components: { TaskEditorModal },
@@ -63,13 +54,18 @@ export default {
   },
   methods: {
     ...mapActions(taskStore, ['fetchTasks', 'deleteTaskItem', 'editTaskItem', 'checkTaskItem']),
+    toggleTaskEditor() {
+      this.showTaskEditor = false;
+    },
     deleteTask(taskId) {
       this.deleteTaskItem(taskId);
     },
     editTask(taskId) {
-      const newTitle = prompt('Introduce el nuevo título de la tarea');
-      this.editTaskItem(taskId, newTitle);
+      // const newTitle = prompt('Introduce el nuevo título de la tarea');
+      // this.editTaskItem(taskId, newTitle);
       // this.editedTask = index;
+      this.editTaskId = taskId;
+      this.showTaskEditor = true;
     },
     checkTask(taskId, isComplete) {
       this.checkTaskItem(taskId, !isComplete);

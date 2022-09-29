@@ -2,16 +2,16 @@
     <div class="task-form">
       <div class="form-container">
         <label for="title">
-          Add a new task
+          Añade una tarea
           <input
           v-model="title"
           name="title"
           type="text"
-          placeholder="Enter a task"
+          placeholder="Escribe aquí tu tarea"
           class="form-control"
           />
         </label>
-        <button @click="submitTask">Submit</button>
+        <button @click="submitTask">Añadir</button>
       </div>
     </div>
     <div v-if="showErrorModal">
