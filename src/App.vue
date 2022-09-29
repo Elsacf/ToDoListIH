@@ -7,7 +7,7 @@
         </div>
         <div class="buttons">
           <router-link class="navbar-button" to="/">Home</router-link>
-          <router-link class="navbar-button" to="/auth">Sign out</router-link>
+          <router-link class="navbar-button" to="/auth">Cerrar sesión</router-link>
         </div>
       </div>
     </nav>

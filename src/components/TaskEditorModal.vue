@@ -4,7 +4,7 @@
         <h3 class="modal-header">{{ header }}</h3>
         <div class="form-container">
         <label for="title">
-          Introduce el nuevo título de la tarea
+          Introduce el nuevo título de la tarea {{ taskId }}
           <input
           v-model="newTitle"
           name="newTitle"
@@ -12,8 +12,8 @@
           class="form-control"
           />
         </label>
-        <button class="close-button" @click="closeModal">Cancelar</button>
-        <button class="edit-button" @click="editTitle(task.id)">Submit</button>
+        <button class="close-button" @click="closeEditorModal">Cancelar</button>
+        <button class="edit-button" @click="editTitle(taskId)">Actualizar</button>
       </div>
     </div>
   </div>
@@ -29,6 +29,9 @@ export default {
     return {
       newTitle: '',
     };
+  },
+  props: {
+    taskId: Number,
   },
   computed: {
     ...mapState(taskStore, ['tasks']),

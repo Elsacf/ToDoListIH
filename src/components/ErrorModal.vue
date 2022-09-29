@@ -38,6 +38,7 @@ export default {
     border-radius: 10px;
     display: unset;
     border: solid 2px #EB1D36;
+    text-align: center;
   }
   .modal-header {
     color: #EB1D36;
