@@ -1,16 +1,16 @@
 <template>
-  <div>
-    <nav v-if="user !== null">
-      <div class="navbar-container">
-        <div>
-          <span class="navbar-brand">To-Do List</span>
+    <div>
+      <nav v-if="user !== null">
+        <div class="navbar-container">
+          <div>
+            <span class="navbar-brand">To-Do List</span>
+          </div>
+          <div class="buttons">
+            <router-link class="navbar-button" to="/">Home</router-link>
+            <router-link class="navbar-button" to="/auth">Cerrar sesión</router-link>
+          </div>
         </div>
-        <div class="buttons">
-          <router-link class="navbar-button" to="/">Home</router-link>
-          <router-link class="navbar-button" to="/auth">Cerrar sesión</router-link>
-        </div>
-      </div>
-    </nav>
+      </nav>
     <router-view/>
   </div>
 </template>
@@ -59,7 +59,7 @@ export default {
   margin-top: 1.2rem;
 }
 .navbar-button {
-  width: 100px;
+  width: 30%;
   text-align: center;
   font-size: 1.1rem;
   padding-top: 1.2rem;
@@ -67,7 +67,7 @@ export default {
 }
 .navbar-container {
   display: flex;
-  padding: 10px;
+  padding: 1.5rem;
   background-color: #EB1D36;
   width: 100%;
 }
@@ -92,5 +92,10 @@ nav a.router-link-exact-active {
 }
 a.router-link-exact-active:hover {
   color: #EB1D36;
+}
+@media screen and (max-width: 480px) {
+  .navbar-container {
+    flex-direction: column;
+}
 }
 </style>

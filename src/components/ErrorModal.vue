@@ -20,7 +20,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
   .backdrop {
     width: 100%;
     height: 100%;
@@ -29,13 +29,13 @@ export default {
     background: rgba(0,0,0,0.5);
   }
   .modal {
-    width: 400px;
-    height: 250px;
-    padding: 20px;
-    margin-top: 100px;
-    margin-left: 500px;
+    width: 33%;
+    height: 15rem;
+    padding: 0.8rem;
+    margin-top: 10rem;
+    margin-left: 40%;
     background: #F5EDDC;
-    border-radius: 10px;
+    border-radius: 5%;
     display: unset;
     border: solid 2px #EB1D36;
     text-align: center;
@@ -50,5 +50,15 @@ export default {
   }
   .modal-button {
     background-color: #CFD2CF;
+  }
+  @media screen and (max-width: 480px) {
+  .modal {
+    width: 75%;
+    height: 15rem;
+    padding: 0.5%;
+    margin-top: 20%;
+    display: unset;
+    margin-left: 15%;
+  }
   }
 </style>
