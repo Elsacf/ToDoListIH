@@ -66,14 +66,13 @@ export default {
 
 <style scoped>
   .task-form {
-    margin-top: 5px;
-    margin-bottom: 75px;
+    margin-bottom: 5rem;
     margin-left: auto;
     margin-right: auto;
     background-color: #CFD2CF;
     width: 75%;
     height: 10rem;
-    padding: 3rem;
+    padding: 2rem;
     border-style: solid;
   }
   .form-container {
@@ -90,5 +89,10 @@ export default {
   }
   .form-control {
     width: 95%;
+  }
+  @media screen and (max-width: 480px) {
+    .task-form {
+    height: 15rem;
+  }
   }
 </style>

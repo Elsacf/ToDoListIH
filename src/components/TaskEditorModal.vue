@@ -4,7 +4,7 @@
         <h3 class="modal-header">{{ header }}</h3>
         <div class="form-container">
         <label for="title">
-          Introduce el nuevo título de la tarea {{ taskId }}
+          Introduce el nuevo título de la tarea
           <input
           v-model="newTitle"
           name="newTitle"
@@ -80,5 +80,15 @@ export default {
   .edit-button {
     background-color: #EB1D36;
     color: white;
+  }
+  @media screen and (max-width: 480px) {
+  .modal {
+    width: 75%;
+    height: 15rem;
+    padding: 0.5%;
+    margin-top: 20%;
+    display: unset;
+    margin-left: 15%;
+  }
   }
 </style>
