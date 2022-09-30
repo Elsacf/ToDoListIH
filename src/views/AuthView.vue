@@ -137,12 +137,12 @@ export default {
 
 <style scoped>
 .registration-form {
-  margin-top: 100px;
+  margin-top: 10rem;
   text-align: center;
 }
 .form-container {
   width: 75%;
-  margin-top: 50px;
+  margin-top: 5rem;
   margin-left: 37%;
   display: flex;
   flex-direction: column;
@@ -178,22 +178,31 @@ label {
 .signin-box-link:hover {
   color: #CFD2CF;
 }
-.backdrop-error-modal {
-    width: 100%;
-    height: 100%;
-    top: 0;
-    position: fixed;
-    background: rgba(0,0,0,0.5);
+  @media screen and (max-width: 480px) {
+    .signin-box{
+  height: 10rem;
+  margin-left: 35%;
+  width: 30%;
+  border: solid #EB1D36;
+  padding-top: 1.3rem;
   }
-  .modal {
-    width: 400px;
-    height: 250px;
-    padding: 20px;
-    margin-top: 100px;
-    margin-left: 500px;
-    background: #F5EDDC;
-    border-radius: 10px;
+  .form-container {
+  width: 75%;
+  margin-left: 20%;
+}
+.registration-form {
+  margin-top: 5rem;
+}
+.form-container {
+  margin-top: 2rem;
+}
+.modal {
+    width: 75%;
+    height: 10rem;
+    padding: 0.5%;
+    margin-top: 20%;
     display: unset;
-    border: solid 2px #EB1D36;
+    margin-left: 15%;
   }
+}
 </style>
